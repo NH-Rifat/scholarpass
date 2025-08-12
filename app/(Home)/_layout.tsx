@@ -1,12 +1,12 @@
 import { Slot } from "expo-router";
 import React from "react";
 import { SafeAreaView, ScrollView, StatusBar, View } from "react-native";
-import BottomNavigation from "./_components/BottomNavigation";
-import Header from "./_components/Header";
+import BottomNavigation from "../components/layout/publicLayout/BottomNavigation";
+import Header from "../components/layout/publicLayout/Header";
 import { colors, globalStyles } from "./styles/globalStyles";
 
 export default function HomeLayout() {
-  const isLoggedIn = false; // Change this based on user authentication
+  const isLoggedIn = true; // Change this based on user authentication
   const userName = "John Doe"; // Get from user context/state
 
   const handleTabPress = (tabName: string) => {
@@ -19,7 +19,7 @@ export default function HomeLayout() {
       <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
       <Header isLoggedIn={isLoggedIn} userName={userName} />
       <View style={{ flex: 1 }}>
-        <ScrollView 
+        <ScrollView
           style={{ flex: 1 }}
           showsVerticalScrollIndicator={false}
           bounces={false}
@@ -27,10 +27,7 @@ export default function HomeLayout() {
           <Slot />
         </ScrollView>
         {isLoggedIn && (
-          <BottomNavigation 
-            activeTab="home"
-            onTabPress={handleTabPress}
-          />
+          <BottomNavigation activeTab="home" onTabPress={handleTabPress} />
         )}
       </View>
     </SafeAreaView>

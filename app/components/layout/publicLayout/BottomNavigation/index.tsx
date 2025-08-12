@@ -1,16 +1,19 @@
-import AntDesign from '@expo/vector-icons/AntDesign';
-import Feather from '@expo/vector-icons/Feather';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { colors, shadows, spacing } from '../../styles/globalStyles';
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import React, { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { colors, shadows, spacing } from "../styles/globalStyles";
 
 interface BottomNavigationProps {
   activeTab?: string;
   onTabPress?: (tabName: string) => void;
 }
 
-const BottomNavigation = ({ activeTab = 'home', onTabPress }: BottomNavigationProps) => {
+const BottomNavigation = ({
+  activeTab = "home",
+  onTabPress,
+}: BottomNavigationProps) => {
   const [currentTab, setCurrentTab] = useState(activeTab);
 
   const handleTabPress = (tabName: string) => {
@@ -21,25 +24,25 @@ const BottomNavigation = ({ activeTab = 'home', onTabPress }: BottomNavigationPr
 
   const tabs = [
     {
-      name: 'home',
-      label: 'Home',
+      name: "home",
+      label: "Home",
       IconComponent: Ionicons,
-      iconName: 'home-outline' as const,
-      activeIconName: 'home' as const,
+      iconName: "home-outline" as const,
+      activeIconName: "home" as const,
     },
     {
-      name: 'contact',
-      label: 'Contact',
+      name: "contact",
+      label: "Contact",
       IconComponent: AntDesign,
-      iconName: 'contacts' as const,
-      activeIconName: 'contacts' as const,
+      iconName: "contacts" as const,
+      activeIconName: "contacts" as const,
     },
     {
-      name: 'profile',
-      label: 'Profile',
+      name: "profile",
+      label: "Profile",
       IconComponent: Feather,
-      iconName: 'user' as const,
-      activeIconName: 'user' as const,
+      iconName: "user" as const,
+      activeIconName: "user" as const,
     },
   ];
 
@@ -56,20 +59,28 @@ const BottomNavigation = ({ activeTab = 'home', onTabPress }: BottomNavigationPr
             onPress={() => handleTabPress(tab.name)}
             activeOpacity={0.7}
           >
-            <View style={[
-              styles.iconContainer,
-              currentTab === tab.name && styles.activeIconContainer,
-            ]}>
+            <View
+              style={[
+                styles.iconContainer,
+                currentTab === tab.name && styles.activeIconContainer,
+              ]}
+            >
               <tab.IconComponent
-                name={currentTab === tab.name ? tab.activeIconName : tab.iconName as any}
+                name={
+                  currentTab === tab.name
+                    ? tab.activeIconName
+                    : (tab.iconName as any)
+                }
                 size={20}
                 color={currentTab === tab.name ? colors.white : colors.gray500}
               />
             </View>
-            <Text style={[
-              styles.tabLabel,
-              currentTab === tab.name && styles.activeTabLabel,
-            ]}>
+            <Text
+              style={[
+                styles.tabLabel,
+                currentTab === tab.name && styles.activeTabLabel,
+              ]}
+            >
               {tab.label}
             </Text>
           </TouchableOpacity>
@@ -85,7 +96,7 @@ const styles = StyleSheet.create({
     ...shadows.lg,
   },
   tabBar: {
-    flexDirection: 'row',
+    flexDirection: "row",
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.sm,
     backgroundColor: colors.white,
@@ -95,7 +106,7 @@ const styles = StyleSheet.create({
   },
   tabItem: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: spacing.xs,
     paddingHorizontal: spacing.xs,
   },
@@ -106,8 +117,8 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: spacing.xs,
   },
   activeIconContainer: {
@@ -117,13 +128,13 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     fontSize: 10,
-    fontWeight: '500',
+    fontWeight: "500",
     color: colors.gray500,
-    textAlign: 'center',
+    textAlign: "center",
   },
   activeTabLabel: {
     color: colors.primary,
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 10,
   },
 });
