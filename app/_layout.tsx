@@ -1,11 +1,25 @@
 import { Stack } from "expo-router";
 import { QueryProvider } from "../providers/QueryProvider";
+import { ReduxProvider } from "../providers/ReduxProvider";
 
 export default function RootLayout() {
   return (
-    <QueryProvider>
-      <Stack>
-        <Stack.Screen
+    <ReduxProvider>
+      <QueryProvider>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="onboarding"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
           name="(Home)"
           options={{
             headerShown: false,
@@ -19,5 +33,6 @@ export default function RootLayout() {
         />
       </Stack>
     </QueryProvider>
+    </ReduxProvider>
   );
 }

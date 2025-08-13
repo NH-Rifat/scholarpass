@@ -12,9 +12,7 @@ export interface RegisterRequest {
   email: string;
   phone: string;
   password: string;
-  confirmPassword: string;
   role: "student" | "teacher" | "institution";
-  terms: boolean;
 }
 
 export interface VerifyEmailRequest {
@@ -23,15 +21,12 @@ export interface VerifyEmailRequest {
 }
 
 export interface User {
-  id: string;
-  firstName: string;
-  lastName: string;
+  id: number;
   email: string;
-  phone: string;
-  role: "student" | "teacher" | "institution";
-  emailVerified: boolean;
-  createdAt: string;
-  updatedAt: string;
+  first_name: string;
+  last_name: string;
+  is_super_admin: boolean;
+  roles: string[];
 }
 
 export interface AuthResponse {
@@ -43,11 +38,33 @@ export interface AuthResponse {
 // Auth API Service
 export const authApi = {
   // Login user
-  login: (data: LoginRequest) => api.post<AuthResponse>("/auth/login", data),
+  login: (data: LoginRequest) => {
+    const loginPayload = {
+      email: data.email.trim().toLowerCase(),
+      password: data.password,
+    };
+    return api.post<AuthResponse>("/login", loginPayload);
+  },
 
   // Register user
-  register: (data: RegisterRequest) =>
-    api.post<{ user: User; message: string }>("/auth/register", data),
+  register: (data: RegisterRequest) => {
+    // Validate required fields before sending
+    if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.password || !data.role) {
+      throw new Error('Missing required fields for registration');
+    }
+
+    // Debug the data being sent
+    const registerData = {
+      first_name: data.firstName.trim(),
+      last_name: data.lastName.trim(),
+      username: `${data.firstName.trim().toLowerCase()} ${data.lastName.trim().toLowerCase()}`,
+      email: data.email.trim().toLowerCase(),
+      phone_number: data.phone.trim(),
+      password_hash: data.password,
+      roles: JSON.stringify([data.role.toLowerCase()])
+    };
+    return api.post<{ user: User; message: string }>("/app-users", registerData);
+  },
 
   // Verify email
   verifyEmail: (data: VerifyEmailRequest) =>

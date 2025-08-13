@@ -2,7 +2,7 @@ import { Stack } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { colors } from "../(Home)/styles/globalStyles";
-import Header from "../components/layout/publicLayout/Header";
+import Header from "../../components/layout/publicLayout/Header";
 
 const AuthLayout = () => {
   return (

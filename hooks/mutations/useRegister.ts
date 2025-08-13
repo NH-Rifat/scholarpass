@@ -11,11 +11,9 @@ export const useRegister = (options?: UseRegisterOptions) => {
   return useMutation({
     mutationFn: (data: RegisterRequest) => authApi.register(data),
     onSuccess: (response) => {
-      console.log("✅ Registration successful:", response.data);
       options?.onSuccess?.(response.data);
     },
     onError: (error: AxiosError) => {
-      console.error("❌ Registration failed:", error);
       options?.onError?.(error);
     },
   });

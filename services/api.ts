@@ -1,14 +1,13 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import Constants from 'expo-constants';
 
 // API Base Configuration
-const API_BASE_URL = __DEV__
-  ? "http://localhost:3000/api" // Development URL
-  : "https://your-production-api.com/api"; // Production URL
+const API_BASE_URL = Constants.expoConfig?.extra?.apiUrl || "https://api.tutorsplan.com";
 
 // Create axios instance
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 15000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -23,12 +22,19 @@ apiClient.interceptors.request.use(
     //   config.headers.Authorization = `Bearer ${token}`;
     // }
 
+    // Handle FormData - don't set Content-Type for FormData, let axios handle it
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type'];
+    }
+
     // Log request in development
     if (__DEV__) {
       console.log("🚀 API Request:", {
         method: config.method?.toUpperCase(),
         url: config.url,
-        data: config.data,
+        baseURL: config.baseURL,
+        data: config.data instanceof FormData ? "FormData" : config.data,
+        headers: config.headers,
       });
     }
 

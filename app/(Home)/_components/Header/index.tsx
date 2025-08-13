@@ -1,53 +1,45 @@
-import { useRouter } from "expo-router";
-import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import {
-  borderRadius,
-  colors,
-  shadows,
-  spacing,
-} from "../../../../(Home)/styles/globalStyles";
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { borderRadius, colors, shadows, spacing } from '../../styles/globalStyles';
 
-interface HeaderProps {
-  isLoggedIn?: boolean;
-  userName?: string;
-}
-
-const Header = ({ isLoggedIn = false, userName = "John" }: HeaderProps) => {
+const Header = () => {
   const router = useRouter();
+  const { isLoggedIn, fullName, user } = useAuth();
+  
   const handleApplyNow = () => {
     if (isLoggedIn) {
       // Navigate to apply scholarship page if logged in
-      console.log("Navigate to apply scholarship page");
-      router.push("/register");
+      console.log('Navigate to apply scholarship page');
     } else {
       // Navigate to register page if not logged in
-      router.push("/register");
+      router.push('/register');
     }
   };
 
   const handleLogoPress = () => {
-    router.push("/(Home)");
+    router.push('/(Home)');
   };
 
   const handleProfileMenu = () => {
     // Handle profile menu actions
-    console.log("Profile menu clicked");
+    console.log('Profile menu clicked for:', fullName);
   };
 
   const renderLoggedOutHeader = () => (
     <View style={styles.headerContent}>
       {/* Logo */}
       <TouchableOpacity style={styles.logoContainer} onPress={handleLogoPress}>
-        <Image
-          source={require("../../../../../assets/images/logo/scholarpass-logo.png")}
+        <Image 
+          source={require('../../../../assets/images/logo/scholarpass-logo.png')} 
           style={styles.logo}
           resizeMode="contain"
         />
       </TouchableOpacity>
 
       {/* Apply Now Button */}
-      <TouchableOpacity
+      <TouchableOpacity 
         style={styles.applyButtonSmall}
         onPress={handleApplyNow}
         activeOpacity={0.8}
@@ -61,20 +53,20 @@ const Header = ({ isLoggedIn = false, userName = "John" }: HeaderProps) => {
     <View style={styles.headerContent}>
       {/* Logo */}
       <TouchableOpacity style={styles.logoContainer} onPress={handleLogoPress}>
-        <Image
-          source={require("../../../../../assets/images/logo/scholarpass-logo.png")}
+        <Image 
+          source={require('../../../../assets/images/logo/scholarpass-logo.png')} 
           style={styles.logo}
           resizeMode="contain"
         />
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.applyButtonSmall}
-        onPress={handleApplyNow}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.applyButtonSmallText}>Apply Now</Text>
-      </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.applyButtonSmall}
+          onPress={handleApplyNow}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.applyButtonSmallText}>Apply Now</Text>
+        </TouchableOpacity>
     </View>
   );
 
@@ -90,9 +82,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.md,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: colors.gray100,
     ...shadows.sm,
@@ -100,9 +92,9 @@ const styles = StyleSheet.create({
     marginTop: spacing.xl,
   },
   headerContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     flex: 1,
   },
   logoContainer: {
@@ -121,7 +113,7 @@ const styles = StyleSheet.create({
   },
   applyButtonSmallText: {
     color: colors.white,
-    fontWeight: "600",
+    fontWeight: '600',
     fontSize: 14,
   },
 });

@@ -46,7 +46,8 @@ const RegisterForm = () => {
     onError: (error) => {
       // Handle registration error
       const errorMessage =
-        error.response?.data?.message ||
+        (error.response?.data as any)?.message ||
+        error.message ||
         "Registration failed. Please try again.";
       Alert.alert("Registration Error", errorMessage);
     },
@@ -92,34 +93,32 @@ const RegisterForm = () => {
 
   const handleSubmit = async () => {
     const validationErrors = validateForm(formData);
-    console.log(formData);
 
     if (hasValidationErrors(validationErrors)) {
       setErrors(validationErrors);
       return;
     }
 
+    // Additional validation to ensure no empty values
+    if (!formData.firstName?.trim() || !formData.lastName?.trim() || 
+        !formData.email?.trim() || !formData.mobileNumber?.trim() || 
+        !formData.password?.trim() || !formData.role?.trim()) {
+      Alert.alert("Validation Error", "Please fill in all required fields");
+      return;
+    }
+
     // Prepare data for API
     const registrationData: RegisterRequest = {
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      phone: `${selectedCountry.code}${formData.mobileNumber}`,
+      firstName: formData.firstName.trim(),
+      lastName: formData.lastName.trim(),
+      email: formData.email.trim(),
+      phone: `${selectedCountry.code}${formData.mobileNumber.trim()}`,
       password: formData.password,
-      confirmPassword: formData.password, // Assuming you want to send the same password
       role: formData.role as "student" | "teacher" | "institution",
-      terms: formData.agreeToTerms,
     };
-    router.push({
-      pathname: "/verifyEmail",
-      params: {
-        email: formData.email,
-        firstName: formData.firstName,
-      },
-    });
 
     // Use TanStack Query mutation
-    // registerMutation.mutate(registrationData);
+    registerMutation.mutate(registrationData);
   };
 
   const navigateToLogin = () => {

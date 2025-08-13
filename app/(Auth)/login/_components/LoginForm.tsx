@@ -1,3 +1,7 @@
+import { useLogin } from '@/hooks/mutations/useLogin';
+import { LoginRequest } from '@/services/auth';
+import { useAppDispatch } from '@/store';
+import { login } from '@/store/actions/authActions';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -9,6 +13,43 @@ import LoginHeader from './LoginHeader';
 
 const LoginForm = () => {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  
+  // TanStack Query mutation for login
+  const loginMutation = useLogin({
+    onSuccess: (response) => {
+      console.log("✅ Login successful:", response);
+      
+      // Extract user data from API response
+      const userData = {
+        user: response.data.data, // The user object from your API response
+        token: response.data.token || null, // Add token if available in response
+      };
+      
+      // Dispatch login action to Redux store
+      dispatch(login(userData));
+      
+      // Navigate to home page
+      Alert.alert(
+        'Success!',
+        'You have been logged in successfully.',
+        [
+          {
+            text: 'Continue',
+            onPress: () => router.replace('/(Home)'),
+          },
+        ]
+      );
+    },
+    onError: (error) => {
+      
+      const errorMessage =
+        (error.response?.data as any)?.message ||
+        error.message ||
+        "Invalid email or password. Please try again.";
+      Alert.alert('Login Error', errorMessage);
+    },
+  });
   
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
@@ -16,7 +57,9 @@ const LoginForm = () => {
   });
 
   const [errors, setErrors] = useState<LoginValidationErrors>({});
-  const [isLoading, setIsLoading] = useState(false);
+  
+  // Get loading state from mutation
+  const isLoading = loginMutation.isPending;
 
   const handleInputChange = (field: keyof LoginFormData, value: string) => {
     setFormData(prev => ({
@@ -41,27 +84,20 @@ const LoginForm = () => {
       return;
     }
 
-    setIsLoading(true);
-    
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      Alert.alert(
-        'Success!',
-        'You have been logged in successfully.',
-        [
-          {
-            text: 'Continue',
-            onPress: () => router.push('/(Home)'),
-          },
-        ]
-      );
-    } catch (error) {
-      Alert.alert('Error', 'Invalid email or password. Please try again.');
-    } finally {
-      setIsLoading(false);
+    // Additional validation to ensure no empty values
+    if (!formData.email?.trim() || !formData.password?.trim()) {
+      Alert.alert("Validation Error", "Please fill in all required fields");
+      return;
     }
+
+    // Prepare data for API
+    const loginData: LoginRequest = {
+      email: formData.email.trim(),
+      password: formData.password,
+    };
+
+    // Use TanStack Query mutation
+    loginMutation.mutate(loginData);
   };
 
   const navigateToRegister = () => {

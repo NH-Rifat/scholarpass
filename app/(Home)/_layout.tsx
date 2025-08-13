@@ -1,8 +1,8 @@
 import { Slot } from "expo-router";
 import React from "react";
 import { SafeAreaView, ScrollView, StatusBar, View } from "react-native";
-import BottomNavigation from "../components/layout/publicLayout/BottomNavigation";
-import Header from "../components/layout/publicLayout/Header";
+import BottomNavigation from "../../components/layout/publicLayout/BottomNavigation";
+import Header from "../../components/layout/publicLayout/Header";
 import { colors, globalStyles } from "./styles/globalStyles";
 
 export default function HomeLayout() {
