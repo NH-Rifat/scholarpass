@@ -110,9 +110,16 @@ const RegisterForm = () => {
       role: formData.role as "student" | "teacher" | "institution",
       terms: formData.agreeToTerms,
     };
+    router.push({
+      pathname: "/verifyEmail",
+      params: {
+        email: formData.email,
+        firstName: formData.firstName,
+      },
+    });
 
     // Use TanStack Query mutation
-    registerMutation.mutate(registrationData);
+    // registerMutation.mutate(registrationData);
   };
 
   const navigateToLogin = () => {
