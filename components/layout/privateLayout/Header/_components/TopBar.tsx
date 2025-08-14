@@ -1,30 +1,37 @@
-import { colors, spacing, typography } from '@/app/(Home)/styles/globalStyles';
-import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { colors, spacing, typography } from "@/app/(Home)/styles/globalStyles";
+import { useRouter } from "expo-router";
+import React from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 interface TopBarProps {
   onMenuPress: () => void;
 }
 
 const TopBar = ({ onMenuPress }: TopBarProps) => {
+  const router = useRouter();
   const handleNotificationPress = () => {
-    console.log('Notification pressed');
+    console.log("Notification pressed");
+  };
+
+  const handleLogoPress = () => {
+    router.push("/(Home)");
   };
 
   return (
     <View style={styles.container}>
       {/* Logo */}
-      <View style={styles.logoContainer}>
-        <View style={styles.logoIcon}>
-          <Text style={styles.logoIconText}>📚</Text>
-        </View>
-        <Text style={styles.logoText}>TutorsPlan</Text>
-      </View>
+      <TouchableOpacity style={styles.logoContainer} onPress={handleLogoPress}>
+        <Image
+          source={require("../../../../../assets/images/logo/scholarpass-logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
 
       {/* Right Actions */}
       <View style={styles.rightActions}>
         {/* Notification Bell */}
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.notificationButton}
           onPress={handleNotificationPress}
         >
@@ -34,10 +41,7 @@ const TopBar = ({ onMenuPress }: TopBarProps) => {
         </TouchableOpacity>
 
         {/* Hamburger Menu */}
-        <TouchableOpacity 
-          style={styles.menuButton}
-          onPress={onMenuPress}
-        >
+        <TouchableOpacity style={styles.menuButton} onPress={onMenuPress}>
           <View style={styles.hamburgerLine} />
           <View style={styles.hamburgerLine} />
           <View style={styles.hamburgerLine} />
@@ -49,9 +53,9 @@ const TopBar = ({ onMenuPress }: TopBarProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.md,
     marginTop: spacing.xl,
@@ -61,17 +65,21 @@ const styles = StyleSheet.create({
     // ...shadows.sm,
     height: 60,
   },
+  logo: {
+    height: 40,
+    width: 160,
+  },
   logoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   logoIcon: {
     width: 32,
     height: 32,
     backgroundColor: colors.primary,
     borderRadius: 6,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: spacing.sm,
   },
   logoIconText: {
@@ -81,15 +89,15 @@ const styles = StyleSheet.create({
   logoText: {
     ...typography.h4,
     color: colors.gray900,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   rightActions: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     gap: spacing.md,
   },
   notificationButton: {
-    position: 'relative',
+    position: "relative",
     padding: spacing.xs,
   },
   bellIcon: {
@@ -97,7 +105,7 @@ const styles = StyleSheet.create({
     color: colors.gray600,
   },
   notificationDot: {
-    position: 'absolute',
+    position: "absolute",
     top: 4,
     right: 4,
     width: 8,
