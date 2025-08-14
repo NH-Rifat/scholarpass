@@ -31,6 +31,12 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="scholarpass"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
     </QueryProvider>
     </ReduxProvider>

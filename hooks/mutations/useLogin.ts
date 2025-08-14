@@ -11,8 +11,7 @@ export const useLogin = (options?: UseLoginOptions) => {
   return useMutation({
     mutationFn: (data: LoginRequest) => authApi.login(data),
     onSuccess: (response) => {
-      // Here you would typically store the token in AsyncStorage
-      options?.onSuccess?.(response.data);
+      options?.onSuccess?.(response);
     },
     onError: (error: AxiosError) => {
       options?.onError?.(error);

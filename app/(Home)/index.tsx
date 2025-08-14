@@ -1,20 +1,25 @@
-import React from 'react'
-import CallToAction from './_components/CallToAction'
-import Hero from './_components/Hero'
-import HowItWorks from './_components/HowItWorks'
-import Opportunities from './_components/Opportunites'
-import WhoItFor from './_components/WhoItFor'
-import WhyITMatters from './_components/WhyITMatters'
+import { useAppDispatch } from '@/store';
+import React from 'react';
+import Hero from './_components/Hero';
+import LearningGoals from './_components/LearningGoals';
+import RecommendedCourses from './_components/RecommendedCourses';
+import RecommendedExams from './_components/RecommendedExams';
+import RecommendedGames from './_components/RecommendedGames';
+import TopInstitutes from './_components/TopInstitutes';
+import TrendingCourses from './_components/TrendingCourses';
+
 
 const Home = () => {
+  const dispatch = useAppDispatch();
   return (
     <>
-    <Hero />
-    <Opportunities />
-    <HowItWorks />
-    <WhoItFor />
-    <WhyITMatters />
-    <CallToAction />
+      <Hero />
+      <LearningGoals />
+      <RecommendedCourses />
+      <RecommendedGames />
+      <RecommendedExams />
+      <TrendingCourses />
+      <TopInstitutes />
     </>
   )
 }

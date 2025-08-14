@@ -2,6 +2,7 @@ import { useLogin } from '@/hooks/mutations/useLogin';
 import { LoginRequest } from '@/services/auth';
 import { useAppDispatch } from '@/store';
 import { login } from '@/store/actions/authActions';
+import { saveAuthData } from '@/utils/authStorage';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -14,21 +15,23 @@ import LoginHeader from './LoginHeader';
 const LoginForm = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
   
   // TanStack Query mutation for login
   const loginMutation = useLogin({
-    onSuccess: (response) => {
+    onSuccess: async (response) => {
       console.log("✅ Login successful:", response);
-      
-      // Extract user data from API response
       const userData = {
-        user: response.data.data, // The user object from your API response
-        token: response.data.token || null, // Add token if available in response
+        user: response?.data?.data,
+        token: response.headers['x-tutorsplan-key'] || null,
       };
-      
+      console.log("🔑 Auth data to be saved:", userData);
+      // Save to AsyncStorage
+      if (userData?.token && userData?.user) {
+        await saveAuthData(userData?.token, userData?.user);
+      }
       // Dispatch login action to Redux store
       dispatch(login(userData));
-      
       // Navigate to home page
       Alert.alert(
         'Success!',

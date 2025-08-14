@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { restoreAuthState } from '../actions/authActions';
 
 // Auth Types based on your API response
 export interface User {
@@ -12,7 +13,6 @@ export interface User {
 
 export interface AuthState {
   user: User | null;
-  token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -21,7 +21,6 @@ export interface AuthState {
 // Initial state
 const initialState: AuthState = {
   user: null,
-  token: null,
   isAuthenticated: false,
   isLoading: false,
   error: null,
@@ -37,25 +36,22 @@ const authSlice = createSlice({
       state.isLoading = true;
       state.error = null;
     },
-    loginSuccess: (state, action: PayloadAction<{ user: User; token?: string }>) => {
+    loginSuccess: (state, action: PayloadAction<{ user: User}>) => {
       state.isLoading = false;
       state.isAuthenticated = true;
       state.user = action.payload.user;
-      state.token = action.payload.token || null;
       state.error = null;
     },
     loginFailure: (state, action: PayloadAction<string>) => {
       state.isLoading = false;
       state.isAuthenticated = false;
       state.user = null;
-      state.token = null;
       state.error = action.payload;
     },
     
     // Logout action
     logout: (state) => {
       state.user = null;
-      state.token = null;
       state.isAuthenticated = false;
       state.isLoading = false;
       state.error = null;
@@ -78,6 +74,26 @@ const authSlice = createSlice({
       state.isLoading = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      // Handle restoreAuthState async thunk
+      .addCase(restoreAuthState.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(restoreAuthState.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+        state.error = null;
+      })
+      .addCase(restoreAuthState.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+        state.error = action.payload as string || 'Failed to restore auth state';
+      });
+  },
 });
 
 // Export actions
@@ -93,10 +109,6 @@ export const {
 
 // Export selectors
 export const selectAuth = (state: { auth: AuthState }) => state.auth;
-export const selectUser = (state: { auth: AuthState }) => state.auth.user;
-export const selectIsAuthenticated = (state: { auth: AuthState }) => state.auth.isAuthenticated;
-export const selectIsLoading = (state: { auth: AuthState }) => state.auth.isLoading;
-export const selectAuthError = (state: { auth: AuthState }) => state.auth.error;
 
 // Export reducer
 export default authSlice.reducer;

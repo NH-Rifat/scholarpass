@@ -1,188 +1,177 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { borderRadius, colors, shadows, spacing, typography } from '../../styles/globalStyles';
-import { courseCategories } from '../../utils/data';
 
 const Hero = () => {
+  const handleJoinNow = () => {
+    console.log('Join Now pressed');
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        {/* Main Content */}
-        <View style={styles.mainContent}>
-          {/* Brand Title with Gradient Effect */}
-          <View style={styles.titleContainer}>
-            <Text style={styles.brandName}>
-              <Text style={styles.scholarText}>Scholar</Text>
-              <Text style={styles.passText}>PASS</Text>
-            </Text>
-            <Text style={styles.mainTitle}>Covers Maximum Course Fees</Text>
-          </View>
-          
-          {/* Subtitle */}
-          <Text style={styles.subtitle}>
-            Unlimited K-12 Tutoring, Coding & Robotics Bootcamps—{'\n'}
-            Funded by ScholarPASS Scholarship
-          </Text>
+      {/* Welcome Section */}
+      <View style={styles.welcomeSection}>
+        <Text style={styles.welcomeTitle}>Welcome back, John Smith! 👋</Text>
+        <Text style={styles.welcomeSubtitle}>Ready to continue your learning journey today?</Text>
+      </View>
 
-          {/* Action Buttons */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={[styles.button, styles.primaryButton]}>
-              <Text style={styles.primaryButtonText}>Apply for Scholarship</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={[styles.button, styles.secondaryButton]}>
-              <Text style={styles.secondaryButtonText}>Partner as an Institute</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={[styles.button, styles.tertiaryButton]}>
-              <Text style={styles.tertiaryButtonText}>Become a Sponsor</Text>
-            </TouchableOpacity>
+      {/* Membership Card */}
+      <View style={styles.membershipCard}>
+        <View style={styles.membershipContent}>
+          <View style={styles.iconContainer}>
+            <Text style={styles.icon}>👤</Text>
+          </View>
+          <View style={styles.membershipText}>
+            <Text style={styles.membershipTitle}>Become a ScholarPASS Member</Text>
+            <Text style={styles.membershipSubtitle}>Unlock K-12 Bundle & exclusive features</Text>
           </View>
         </View>
+        <TouchableOpacity style={styles.joinButton} onPress={handleJoinNow}>
+          <Text style={styles.joinButtonText}>Join Now</Text>
+        </TouchableOpacity>
+      </View>
 
-        {/* Course Categories Cards */}
-        <View style={styles.categoriesContainer}>
-          <View style={styles.categoriesGrid}>
-            {courseCategories.slice(0, 4).map((category, index) => (
-              <View key={category.id} style={styles.categoryCard}>
-                <View style={[styles.categoryIcon, { backgroundColor: getCardColor(index) }]}>
-                  <Text style={styles.categoryIconText}>{category.icon}</Text>
-                </View>
-                <Text style={styles.categoryTitle}>{category.title}</Text>
-              </View>
-            ))}
+      {/* Stats Grid */}
+      <View style={styles.statsGrid}>
+        <View style={styles.statsRow}>
+          <View style={[styles.statCard, styles.blueCard]}>
+            <Text style={styles.statIcon}>📚</Text>
+            <Text style={styles.statNumber}>8</Text>
+            <Text style={styles.statLabel}>Enrolled Courses</Text>
+          </View>
+          <View style={[styles.statCard, styles.purpleCard]}>
+            <Text style={styles.statIcon}>🕐</Text>
+            <Text style={styles.statNumber}>3</Text>
+            <Text style={styles.statLabel}>Upcoming Tutoring Sessions</Text>
+          </View>
+        </View>
+        <View style={styles.statsRow}>
+          <View style={[styles.statCard, styles.pinkCard]}>
+            <Text style={styles.statIcon}>🔖</Text>
+            <Text style={styles.statNumber}>2400$</Text>
+            <Text style={styles.statLabel}>ScholarPASS</Text>
+          </View>
+          <View style={[styles.statCard, styles.orangeCard]}>
+            <Text style={styles.statIcon}>📄</Text>
+            <Text style={styles.statNumber}>5</Text>
+            <Text style={styles.statLabel}>Number of Exams</Text>
           </View>
         </View>
       </View>
     </View>
   );
-};
-
-// Helper function for card colors
-const getCardColor = (index: number) => {
-  const cardColors = [colors.blue50, colors.purple50, colors.blue50, colors.purple50];
-  return cardColors[index % cardColors.length];
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.gray50,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.xxl,
-    minHeight: 600,
+    padding: spacing.lg,
+    backgroundColor: colors.white,
   },
-  content: {
-    flex: 1,
-  },
-  mainContent: {
-    marginBottom: spacing.xxl,
-  },
-  titleContainer: {
+  welcomeSection: {
     marginBottom: spacing.xl,
   },
-  brandName: {
-    textAlign: 'center',
-    marginBottom: spacing.sm,
+  welcomeTitle: {
+    ...typography.h3,
+    color: colors.gray900,
+    marginBottom: spacing.xs,
   },
-  scholarText: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: colors.primary, // Blue color
-  },
-  passText: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: colors.secondary, // Purple color
-  },
-  mainTitle: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: colors.black,
-    textAlign: 'center',
-    lineHeight: 56,
-  },
-  subtitle: {
+  welcomeSubtitle: {
     ...typography.body1,
     color: colors.gray600,
-    textAlign: 'center',
-    marginBottom: spacing.xxl,
-    lineHeight: 24,
-    fontSize: 16,
   },
-  buttonContainer: {
+  membershipCard: {
+    backgroundColor: '#8B5CF6',
+    borderRadius: borderRadius.xl,
+    padding: spacing.lg,
+    flexDirection: 'column',
+    gap: spacing.md,
     alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: spacing.xl,
+    ...shadows.md,
+  },
+  membershipContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  iconContainer: {
+    width: 40,
+    height: 40,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    borderRadius: borderRadius.lg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: spacing.md,
+  },
+  icon: {
+    fontSize: 20,
+    color: colors.white,
+  },
+  membershipText: {
+    flex: 1,
+  },
+  membershipTitle: {
+    ...typography.h4,
+    color: colors.white,
+    marginBottom: spacing.xs,
+  },
+  membershipSubtitle: {
+    ...typography.body2,
+    color: 'rgba(255, 255, 255, 0.8)',
+  },
+  joinButton: {
+    backgroundColor: colors.white,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.lg,
+    marginTop: spacing.xs,
+  },
+  joinButtonText: {
+    ...typography.button,
+    color: '#8B5CF6',
+  },
+  statsGrid: {
     gap: spacing.md,
   },
-  button: {
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
-    borderRadius: borderRadius.lg,
-    width: 250,
-    alignItems: 'center',
-  },
-  primaryButton: {
-    backgroundColor: colors.secondary, // Purple
-  },
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: colors.warning, // Orange
-  },
-  tertiaryButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: colors.primary, // Blue
-  },
-  primaryButtonText: {
-    color: colors.white,
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  secondaryButtonText: {
-    color: colors.warning, // Orange
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  tertiaryButtonText: {
-    color: colors.primary, // Blue
-    fontWeight: '600',
-    fontSize: 16,
-  },
-  categoriesContainer: {
-    // marginTop: spacing.sm,
-  },
-  categoriesGrid: {
+  statsRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    gap: spacing.md,
   },
-  categoryCard: {
-    backgroundColor: colors.white,
-    borderRadius: borderRadius.lg,
+  statCard: {
+    flex: 1,
     padding: spacing.lg,
+    borderRadius: borderRadius.xl,
     alignItems: 'center',
-    width: '47%',
     minHeight: 120,
     justifyContent: 'center',
-    marginBottom: spacing.md,
-    ...shadows.sm,
   },
-  categoryIcon: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
+  blueCard: {
+    backgroundColor: '#EFF6FF',
+  },
+  purpleCard: {
+    backgroundColor: '#F3E8FF',
+  },
+  pinkCard: {
+    backgroundColor: '#FDF2F8',
+  },
+  orangeCard: {
+    backgroundColor: '#FFF7ED',
+  },
+  statIcon: {
+    fontSize: 24,
     marginBottom: spacing.sm,
   },
-  categoryIconText: {
-    fontSize: 24,
+  statNumber: {
+    ...typography.h2,
+    fontWeight: 'bold',
+    marginBottom: spacing.xs,
   },
-  categoryTitle: {
+  statLabel: {
     ...typography.body2,
-    fontWeight: '600',
-    color: colors.gray800,
+    color: colors.gray600,
     textAlign: 'center',
+    lineHeight: 18,
   },
 });
 

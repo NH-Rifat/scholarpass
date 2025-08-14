@@ -1,5 +1,27 @@
+import { clearAuthData, loadAuthData } from '@/utils/authStorage';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch } from '../index';
 import { loginFailure, loginStart, loginSuccess, logout as logoutAction, User } from '../slices/authSlice';
+
+// Restore auth state from AsyncStorage using createAsyncThunk
+export const restoreAuthState = createAsyncThunk(
+  'auth/restoreAuthState',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { token, user } = await loadAuthData();
+
+      if (token && user) {
+        return { user };
+      } else {
+        return rejectWithValue('No auth data found');
+      }
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'Failed to restore auth state'
+      );
+    }
+  }
+);
 
 // Async action creators
 export const login = (userData: { user: User; token?: string }) => {
@@ -7,16 +29,8 @@ export const login = (userData: { user: User; token?: string }) => {
     try {
       dispatch(loginStart());
       dispatch(loginSuccess(userData));
-      
-      // You can add additional logic here like:
-      // - Save token to AsyncStorage
-      // - Set up axios interceptors
-      // - Analytics tracking
-      
-      console.log('✅ User logged in successfully:', userData.user.email);
     } catch (error) {
       dispatch(loginFailure('Login failed'));
-      console.error('❌ Login action failed:', error);
     }
   };
 };
@@ -24,33 +38,10 @@ export const login = (userData: { user: User; token?: string }) => {
 export const logout = () => {
   return (dispatch: AppDispatch) => {
     try {
-      // Clear any stored tokens, reset axios headers, etc.
-      // AsyncStorage.removeItem('authToken');
-      
+      clearAuthData();
       dispatch(logoutAction());
-      console.log('✅ User logged out successfully');
     } catch (error) {
-      console.error('❌ Logout action failed:', error);
-    }
-  };
-};
-
-// Thunk for checking authentication status on app start
-export const initializeAuth = () => {
-  return async (dispatch: AppDispatch) => {
-    try {
-      // Check if user has stored auth data
-      // const token = await AsyncStorage.getItem('authToken');
-      // const userData = await AsyncStorage.getItem('userData');
-      
-      // if (token && userData) {
-      //   const user = JSON.parse(userData);
-      //   dispatch(loginSuccess({ user, token }));
-      // }
-      
-      console.log('🔄 Auth initialization completed');
-    } catch (error) {
-      console.error('❌ Auth initialization failed:', error);
+      console.error('❌ Logout failed:', error);
     }
   };
 };
