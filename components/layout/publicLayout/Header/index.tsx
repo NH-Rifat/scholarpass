@@ -16,13 +16,13 @@ interface HeaderProps {
 const Header = ({ isLoggedIn = false, userName = "John" }: HeaderProps) => {
   const router = useRouter();
   const handleApplyNow = () => {
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
       // Navigate to apply scholarship page if logged in
       console.log("Navigate to apply scholarship page");
       router.push("/register");
     } else {
       // Navigate to register page if not logged in
-      router.push("/register");
+      router.push("/scholarpass/apply-scholarship");
     }
   };
 

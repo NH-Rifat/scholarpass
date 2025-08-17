@@ -1,18 +1,18 @@
+import Feather from "@expo/vector-icons/Feather";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import {
-  borderRadius,
-  colors,
-  shadows,
-  spacing,
-  typography,
-} from "../../styles/globalStyles";
-
+import { Text, TouchableOpacity, View } from "react-native";
+import { styles } from "./styles";
 const Hero = () => {
   const router = useRouter();
   const handleJoinNow = () => {
     router.push("/scholarpass");
+  };
+
+  const handleEnrollNow = () => {
+    router.push("/register"); // Navigate to registration
   };
 
   return (
@@ -72,121 +72,84 @@ const Hero = () => {
           </View>
         </View>
       </View>
+
+      {/* Featured Package Card */}
+      <View style={styles.packageCard}>
+        {/* Featured Badge */}
+        <View style={styles.featuredBadge}>
+          <Text style={styles.featuredText}>Featured Package</Text>
+        </View>
+
+        <View style={styles.packageContent}>
+          {/* Left Content */}
+          <View style={styles.packageLeft}>
+            <Text style={styles.packageTitle}>ScholarPASS K12 Bundle</Text>
+            <Text style={styles.packageDescription}>
+              One comprehensive course covering all subjects for any K-12 grade,
+              designed to provide complete educational support.
+            </Text>
+
+            {/* Features List */}
+            <View style={styles.featuresList}>
+              <View style={styles.featureItem}>
+                <Feather name="check-circle" size={20} color="#8B5CF6" />
+                <Text style={styles.featureText}>
+                  All Subjects of any 3rd-12th Grade
+                </Text>
+              </View>
+              <View style={styles.featureItem}>
+                <Feather name="users" size={20} color="#8B5CF6" />
+                <Text style={styles.featureText}>
+                  Unlimited 1:1 or group tutoring
+                </Text>
+              </View>
+              <View style={styles.featureItem}>
+                <MaterialCommunityIcons
+                  name="lightning-bolt-outline"
+                  size={20}
+                  color="#8B5CF6"
+                />
+                <Text style={styles.featureText}>Unlimited self-learning</Text>
+              </View>
+              <View style={styles.featureItem}>
+                <SimpleLineIcons name="badge" size={20} color="#8B5CF6" />
+                <Text style={styles.featureText}>
+                  ScholarsPASS scholarship $1,000
+                </Text>
+              </View>
+            </View>
+
+            {/* Pricing */}
+            <View style={styles.pricingContainer}>
+              <View style={styles.priceItem}>
+                <Text style={styles.priceLabel}>REGULAR PRICE</Text>
+                <Text style={styles.regularPrice}>$2400</Text>
+              </View>
+              <View style={styles.priceItem}>
+                <Text style={styles.priceLabel}>SCHOLARPASS</Text>
+                <Text style={styles.scholarPrice}>$1800</Text>
+              </View>
+              <View style={styles.priceItem}>
+                <Text style={styles.priceLabel}>STUDENT PAYS</Text>
+                <Text style={styles.studentPrice}>$600</Text>
+              </View>
+            </View>
+
+            {/* Enroll Button */}
+            <TouchableOpacity
+              style={styles.enrollButton}
+              onPress={handleEnrollNow}
+            >
+              <Text style={styles.enrollButtonText}>Enroll Now</Text>
+              <Text style={styles.enrollArrow}>→</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Right Content - Course Image */}
+        </View>
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: spacing.lg,
-    backgroundColor: colors.white,
-  },
-  welcomeSection: {
-    marginBottom: spacing.xl,
-  },
-  welcomeTitle: {
-    ...typography.h3,
-    color: colors.gray900,
-    marginBottom: spacing.xs,
-  },
-  welcomeSubtitle: {
-    ...typography.body1,
-    color: colors.gray600,
-  },
-  membershipCard: {
-    backgroundColor: "#8B5CF6",
-    borderRadius: borderRadius.xl,
-    padding: spacing.lg,
-    flexDirection: "column",
-    gap: spacing.md,
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: spacing.xl,
-    ...shadows.md,
-  },
-  membershipContent: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-  },
-  iconContainer: {
-    width: 40,
-    height: 40,
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
-    borderRadius: borderRadius.lg,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: spacing.md,
-  },
-  icon: {
-    fontSize: 20,
-    color: colors.white,
-  },
-  membershipText: {
-    flex: 1,
-  },
-  membershipTitle: {
-    ...typography.h4,
-    color: colors.white,
-    marginBottom: spacing.xs,
-  },
-  membershipSubtitle: {
-    ...typography.body2,
-    color: "rgba(255, 255, 255, 0.8)",
-  },
-  joinButton: {
-    backgroundColor: colors.white,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    borderRadius: borderRadius.lg,
-    marginTop: spacing.xs,
-  },
-  joinButtonText: {
-    ...typography.button,
-    color: "#8B5CF6",
-  },
-  statsGrid: {
-    gap: spacing.md,
-  },
-  statsRow: {
-    flexDirection: "row",
-    gap: spacing.md,
-  },
-  statCard: {
-    flex: 1,
-    padding: spacing.lg,
-    borderRadius: borderRadius.xl,
-    alignItems: "center",
-    minHeight: 120,
-    justifyContent: "center",
-  },
-  blueCard: {
-    backgroundColor: "#EFF6FF",
-  },
-  purpleCard: {
-    backgroundColor: "#F3E8FF",
-  },
-  pinkCard: {
-    backgroundColor: "#FDF2F8",
-  },
-  orangeCard: {
-    backgroundColor: "#FFF7ED",
-  },
-  statIcon: {
-    fontSize: 24,
-    marginBottom: spacing.sm,
-  },
-  statNumber: {
-    ...typography.h2,
-    fontWeight: "bold",
-    marginBottom: spacing.xs,
-  },
-  statLabel: {
-    ...typography.body2,
-    color: colors.gray600,
-    textAlign: "center",
-    lineHeight: 18,
-  },
-});
 
 export default Hero;
